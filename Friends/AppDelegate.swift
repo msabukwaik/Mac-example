@@ -20,6 +20,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		
 		masterViewController = MasterViewController(nibName: NSNib.Name(rawValue: "MasterViewController"), bundle: nil)
 		window.contentView!.addSubview(masterViewController.view)
+		
 		masterViewController.view.frame = window.contentView!.bounds
 		
 	}
@@ -27,7 +28,5 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	func applicationWillTerminate(_ aNotification: Notification) {
 		// Insert code here to tear down your application
 	}
-
-
 }
 
