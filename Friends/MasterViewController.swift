@@ -12,7 +12,7 @@ class MasterViewController: NSViewController {
 	@IBOutlet weak var firstName: NSTextField!
 	@IBOutlet weak var lastName: NSTextField!
 	@IBOutlet weak var age: NSComboBox!
-	@IBOutlet weak var friendsList: NSTextField!
+	@IBOutlet weak var tblFriends: NSTableView!
 	
 	var sharedFriends:[Friend] = []
 	
@@ -40,7 +40,7 @@ class MasterViewController: NSViewController {
 			return
 		}
 		
-		if age.integerValue >= 1 && age.integerValue <= 100{
+		if age.integerValue < 1 && age.integerValue > 100{
 			showErrorMessage(title: "Age is invalid", errorMessage: "Enter a valid age of your friend [1-100]")
 			return
 		}
@@ -49,16 +49,12 @@ class MasterViewController: NSViewController {
 		sharedFriends.append(Friend(firstName: firstName.stringValue, lastName: lastName.stringValue, age: age.integerValue))
 		
 		
-		// Show friends
-		friendsList.stringValue = ""
-		for friend in sharedFriends {
-			friendsList.stringValue = "\(friendsList.stringValue) \n Name : \(friend.firstName) \(friend.lastName) age : \(age.stringValue) \n"
-		}
-		
 		// Reset fields
 		firstName.stringValue = ""
 		lastName.stringValue = ""
 		age.integerValue = 1
+		
+		tblFriends.reloadData()
 		
 	}
 	
@@ -70,4 +66,31 @@ class MasterViewController: NSViewController {
 		errorAlert.runModal()
 	}
 	
+}
+
+extension MasterViewController: NSTableViewDataSource{
+	func numberOfRows(in tableView: NSTableView) -> Int {
+		return sharedFriends.count
+	}
+	
+	func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
+		//print("row = \(row)")
+		let cell:NSTableCellView = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: tableColumn!.identifier.rawValue), owner: self) as! NSTableCellView
+
+		switch tableColumn!.identifier.rawValue {
+		case "cellFirstName":
+			cell.textField?.stringValue = sharedFriends[row].firstName
+			
+		case "cellSecondName":
+			cell.textField?.stringValue = sharedFriends[row].lastName
+			
+		case "cellAge":
+			cell.textField?.stringValue = String(describing: sharedFriends[row].age!)
+			
+		default:
+			break
+		}
+		
+		return cell
+	}
 }

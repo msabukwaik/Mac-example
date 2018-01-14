@@ -9,11 +9,11 @@
 import Foundation
 
 class Friend {
-	var firstName:String = ""
-	var lastName:String = ""
-	var age:Int?
+	var firstName:String!
+	var lastName:String!
+	var age:Int!
 	
-	init(firstName:String, lastName: String, age:Int?) {
+	required init(firstName:String, lastName: String, age:Int?) {
 		self.firstName = firstName
 		self.lastName = lastName
 		self.age = age
